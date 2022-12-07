@@ -4,15 +4,14 @@ Simple statistics calculations such as t-test, boxplot, summary statistics using
 
 ## Import data
 
-df <- read.csv(file = "hw1_speed_data.csv", header = TRUE, sep = ",")
+      df <- read.csv(file = "hw1_speed_data.csv", header = TRUE, sep = ",")
 
 **Q1**
 
 Generate summary statistics for vehicular speeds data and compare the results.
 
-summary(df$speed_before)
-
-summary(df$speed_after)
+      summary(df$speed_before)
+      summary(df$speed_after)
 
 **Findings:**
 
@@ -30,12 +29,12 @@ summary(df$speed_after)
 
 Generate and interpret box-plots for vehicular speeds data (make them look nice).
 
-boxplot(df$speed_before, 
+      boxplot(df$speed_before, 
         ylab = "Speed (mph)", 
         col = "tomato",
         main = "Boxplot of Speed Before the Repeal of a Speed Limit Law")
  
-boxplot(df$speed_after, 
+      boxplot(df$speed_after, 
         ylab = "Speed (mph)",
         col = "purple",
         main = "Boxplot of Speed After the Repeal of a Speed Limit Law")
@@ -56,17 +55,17 @@ boxplot(df$speed_after,
 
 Generate and interpret histograms for vehicular speeds data (make them look nice).
 
-hist(df$speed_before,
-     ylab = "Speed (mph)",
-     xlab = "Speed Before",
-     col = "tomato",
-     main = "Histogram of Speed Before the Repeal of a Speed Limit Law")
+      hist(df$speed_before,
+      ylab = "Speed (mph)",
+      xlab = "Speed Before",
+      col = "tomato",
+      main = "Histogram of Speed Before the Repeal of a Speed Limit Law")
  
-hist(df$speed_after,
-     ylab = "Speed (mph)",
-     xlab = "Speed After",
-     col = "purple",
-     main = "Histogram of Speed After the Repeal of a Speed Limit Law")
+      hist(df$speed_after,
+      ylab = "Speed (mph)",
+      xlab = "Speed After",
+      col = "purple",
+      main = "Histogram of Speed After the Repeal of a Speed Limit Law")
  
 **Findings:**
 
@@ -78,13 +77,12 @@ hist(df$speed_after,
 
 Find out the mean and median values of the after-speed data for those particular vehicles whose speeds before the repeal were greater than 60 mph.
 
-library(tidyverse)
-
-df |> 
-  drop_na() |>
-  filter(speed_before > 60) |> 
-  summarise(MEAN_SPEED = mean(speed_after),
-            MEDIAN_SPEED = median(speed_after))
+      library(tidyverse)
+      df |> 
+      drop_na() |>
+      filter(speed_before > 60) |> 
+      summarise(MEAN_SPEED = mean(speed_after),
+      MEDIAN_SPEED = median(speed_after))
 
 MEAN_SPEED = 61.3731 ; MEDIAN_SPEED = 59.9
             
@@ -96,13 +94,12 @@ MEAN_SPEED = 61.3731 ; MEDIAN_SPEED = 59.9
 
 Find out the frequency distribution of vehicular after-speed data and interpret results.
 
-library(gtsummary)
-
-df |>
-  select(speed_after)|>
-  mutate(speed_after_ = as.factor(speed_after)) |>
-  tbl_summary() |>
-  as_flex_table()
+      library(gtsummary)
+      df |>
+      select(speed_after)|>
+      mutate(speed_after_ = as.factor(speed_after)) |>
+      tbl_summary() |>
+      as_flex_table()
   
 
 Characteristic	N = 7441
@@ -289,48 +286,36 @@ Unknown	192
 
 Generate 99% confidence intervals for mean vehicular after-speed data assuming the population variance is unknown. Explain each step and interpret the results.
 
-after.model <- lm(speed_after ~ 1, df)
-
-confint(after.model, level=0.99)
-
-sample.mean <- mean(df$speed_after, na.rm = TRUE)
-
-print(sample.mean)
+      after.model <- lm(speed_after ~ 1, df)
+      confint(after.model, level=0.99)
+      sample.mean <- mean(df$speed_after, na.rm = TRUE)
+      print(sample.mean)
 
 60.48877
 
-sample.n <- length(df$speed_after)
-
-sample.sd <- sd(df$speed_after, na.rm = TRUE)
-
-sample.se <- sample.sd/sqrt(sample.n)
-
-print(sample.se)
+      sample.n <- length(df$speed_after)
+      sample.sd <- sd(df$speed_after, na.rm = TRUE)
+      sample.se <- sample.sd/sqrt(sample.n)
+      print(sample.se)
 
 0.160235
 
 
-alpha = 0.01
-
-degrees.freedom = sample.n - 1
-
-t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
-
-print(t.score)
+      alpha = 0.01
+      degrees.freedom = sample.n - 1
+      t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+      print(t.score)
 
 2.582462
 
-margin.error <- t.score * sample.se
-
-print(margin.error)
+      margin.error <- t.score * sample.se
+      print(margin.error)
 
 0.4138008
 
-lower.bound <- sample.mean - margin.error
-
-upper.bound <- sample.mean + margin.error
-
-print(c(lower.bound,upper.bound))
+      lower.bound <- sample.mean - margin.error
+      upper.bound <- sample.mean + margin.error
+      print(c(lower.bound,upper.bound))
 
 60.07497 60.90257
 
@@ -350,21 +335,16 @@ The 99% confidence intervals for mean vehicular after-speed is (60.07497 kph, 60
 
 Generate 95% confidence intervals for the variance of before-speed data. Explain each step and interpret the results.
 
-d.f <- length(df$speed_before) - 1
-
-var_speed_before <- var(df$speed_before, na.rm = TRUE)
-
-print(var_speed_before)
+      d.f <- length(df$speed_before) - 1
+      var_speed_before <- var(df$speed_before, na.rm = TRUE)
+      print(var_speed_before)
 
 16.42102
 
-lower = var_speed_before * d.f / qchisq(0.05/2, d.f, lower.tail = FALSE)
-
-upper = var_speed_before * d.f / qchisq(1 - 0.05/2, d.f, lower.tail = FALSE)
-
-c(lower = lower, variance = var_speed_before, upper = upper)
-
-lower = 14.87124 ; variance = 16.42102 ; upper = 18.22765
+      lower = var_speed_before * d.f / qchisq(0.05/2, d.f, lower.tail = FALSE)
+      upper = var_speed_before * d.f / qchisq(1 - 0.05/2, d.f, lower.tail = FALSE)
+      c(lower = lower, variance = var_speed_before, upper = upper)
+      lower = 14.87124 ; variance = 16.42102 ; upper = 18.22765
 
 **Findings:**
 
@@ -382,7 +362,7 @@ The 95% confidence intervals for the variance of before-speed is (14.87124 kph, 
 
 Test whether the mean speed is 55 mph before and 60 mph after at the α=5% significance level. Explain each step and interpret the results.
 
-speed_before <- t.test(df$speed_before, mu = 55)
+      speed_before <- t.test(df$speed_before, mu = 55)
 
 One Sample t-test 
 
@@ -453,9 +433,8 @@ Step 5. Decision-making - The p-value is less than the alpha (0.05), hence we re
 
 Test whether the variance of after-speed data is less than 19 mph^2 at the α=5% significance level. Explain each step and interpret the results.
 
-library(DescTools)
-
-VarTest(df$speed_after, sigma.squared = 19, alternative = "less") 
+      library(DescTools)
+      VarTest(df$speed_after, sigma.squared = 19, alternative = "less") 
 
 One Sample Chi-Square test on variance
 
@@ -467,13 +446,13 @@ alternative hypothesis: true variance is less than 19
 
 95 percent confidence interval:
 
-   0.00000 21.15417
+      0.00000 21.15417
    
  sample estimates:
  
  variance of x 
  
-      19.10238
+ 19.10238
 
 **Findings:**
 
@@ -491,7 +470,7 @@ Step 5. Decision-making - The p-value is greater than the alpha (0.05), hence we
 
 Test that the mean vehicular speeds before and after are equal at the α=10% significance level. Explain each step and interpret the results.
 
-t.test(df$speed_before, df$speed_after, var.equal = TRUE, conf.level = 0.90)
+      t.test(df$speed_before, df$speed_after, var.equal = TRUE, conf.level = 0.90)
  
 Two Sample t-test 
 
@@ -527,7 +506,7 @@ Step 5. Decision-making - The p-value is less than the alpha (0.05), hence we re
 
 Test that the vehicular speed variances before and after are equal at the α=5% significance level. Explain each step and interpret the results.
 
-var.test(df$speed_before, df$speed_after, alternative = "two.sided")
+      var.test(df$speed_before, df$speed_after, alternative = "two.sided")
  
   F test to compare two variances 
   
@@ -545,7 +524,7 @@ var.test(df$speed_before, df$speed_after, alternative = "two.sided")
  
  ratio of variances 
  
-          0.8596321
+ 0.8596321
 
 **Findings:**
 
@@ -563,7 +542,7 @@ Step 5. Decision-making - The p-value of F-test is p = 0.05591 which is greater 
 
 Use a Mann-Whitney-Wilcoxon test to assess whether the distributions of speeds before and after are equal. Also draw density plots using before and after speeds data. Interpret the results based on the test and drawing.
 
-wilcox.test(df$speed_before, df$speed_after, data=df) 
+      wilcox.test(df$speed_before, df$speed_after, data=df) 
  
   Wilcoxon rank sum test with continuity correction
  
@@ -573,25 +552,23 @@ wilcox.test(df$speed_before, df$speed_after, data=df)
  
  alternative hypothesis: true location shift is not equal to 0
  
-hist(df$speed_before,
+      hist(df$speed_before,
      prob = TRUE,
      ylab = "Speed (mph)",
      xlab = "Speed Before",
      col = "tomato",
      main = "Histogram Density plot of Speed Before the Repeal of a Speed Limit Law")
-     
-lines(density(df$speed_before),
+     lines(density(df$speed_before),
       lwd = 2,
       col = "black")
  
-hist(df$speed_after,
+      hist(df$speed_after,
      prob = TRUE,
      ylab = "Speed (mph)",
      xlab = "Speed After",
      col = "purple",
      main = "Histogram Density plot of Speed After the Repeal of a Speed Limit Law")
-     
-lines(density(df$speed_after, na.rm = TRUE),
+     lines(density(df$speed_after, na.rm = TRUE),
       lwd = 2,
       col = "black")
  
